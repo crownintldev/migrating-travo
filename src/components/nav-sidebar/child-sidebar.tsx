@@ -8,7 +8,6 @@ type ChildMenusProps = {
   menuItems: Array<{ title: string; children?: Array<any> }>;
 };
 
-// const openDrawer = () => <SheetDemo />;
 
 const ChildMenus: React.FC<ChildMenusProps> = ({ menuItems }) => {
   console.log("menu items", menuItems);
@@ -101,7 +100,9 @@ const ChildMenus: React.FC<ChildMenusProps> = ({ menuItems }) => {
                       />
                     </svg>
                   </span>
-                  {menuItem.title}
+                  <Link href={`/accounts${menuItem.path}`}>
+                    {menuItem.title}
+                  </Link>
                 </div>
               )}
             </li>

@@ -74,7 +74,6 @@ const MainMenu = (props: Props) => {
           </div>
         ))}
       </div>
-      {/* {selectedChild ? <ChildMenus menuItems={selectedChild} /> : <ChildMenus menuItems={homeItems}} */}
       <ChildMenus menuItems={selectedChild ? selectedChild : mainNavLinks} />
     </div>
   );

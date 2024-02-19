@@ -141,12 +141,14 @@ const data: Payment[] = [
 ];
 
 export default function UsersPage({}: Props) {
+  
  const expense = useSelector((state:any)=>state.expense.data)
  console.log(expense)
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchExpense({}));
   }, []);
+
   return (
     <>
       <div className="flex flex-col gap-5  w-full">

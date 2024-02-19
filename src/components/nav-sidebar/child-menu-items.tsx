@@ -12,11 +12,6 @@ export const homeItems = () => [
         icon: "tabler:circle-filled",
       },
       {
-        title: "Expense",
-        path: "/accounts/expense",
-        icon: "tabler:circle-filled",
-      },
-      {
         title: "Orders",
         path: "/orders",
         icon: "tabler:circle-filled",

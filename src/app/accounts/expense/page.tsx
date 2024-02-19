@@ -1,15 +1,28 @@
-"use client"
+"use client";
 
-import DataTable from "@/components/DataTable"
+// Shadcn Imports
+import DataTable from "@/components/DataTable";
+import TopHeader from "@/components/TopHeader";
+
+// Redux Imports
+import { fetchExpense } from "@/store";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Expense() {
 
-  const actionLists = [
-    "create"
-  ]
+  const expense = useSelector((state:any)=>state.expense.data)
+  console.log(expense)
+   const dispatch = useDispatch();
+   useEffect(() => {
+     dispatch(fetchExpense({}));
+   }, []);
+
+  const actionLists = ["create"];
   return (
     <div className="w-full">
-        <DataTable actions={actionLists} /> 
+      <TopHeader />
+      <DataTable actions={actionLists} />
     </div>
-  )
+  );
 }
