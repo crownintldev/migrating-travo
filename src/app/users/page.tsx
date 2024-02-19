@@ -3,8 +3,7 @@
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import React, { useEffect } from "react";
-import PageTitle from "@/components/PageTitle";
-import { GlobalSheet } from "@/components/sheet/page";
+import { GlobalSheet } from "@/components/drawer/page";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchExpense } from "@/store";
 type Props = {};
@@ -152,7 +151,6 @@ export default function UsersPage({}: Props) {
     <>
       <div className="flex flex-col gap-5  w-full">
         {/* <GlobalSheet /> */}
-        <PageTitle title="Users" />
         <DataTable columns={columns} data={expense} />
       </div>
     </>

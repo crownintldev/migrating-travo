@@ -1,11 +1,15 @@
 "use client";
 
+// React Imports
 import * as React from "react";
+
 import {
   CaretSortIcon,
   ChevronDownIcon,
   DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
+
+// Tanstack Import
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -19,6 +23,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
+
+// Shadcn Imports
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -39,23 +45,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { GlobalSheet } from "./sheet/page";
-import {
-  Menubar,
-  MenubarCheckboxItem,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-import { NavLists } from "./top-menus/nav-lists";
+
+// Normal Imports
+import { GlobalSheet } from "./drawer/page";
+import { ActionsHandlers } from "./ActionsHandler";
 
 const data: Payment[] = [
   {
@@ -168,7 +161,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button variant="ghost" className="h-8 w-8 p-0 hover:text-black">
               <span className="sr-only">Open menu</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
@@ -198,7 +191,7 @@ const actionHandler = () => {
     </form>
   );
 
-  return <GlobalSheet children={children} title="add form" />;
+  return <GlobalSheet children={children} title="add form" side='right' />;
 };
 
 export default function DataTable({ actions }) {
@@ -232,7 +225,7 @@ export default function DataTable({ actions }) {
   return (
     <div className="w-full bg-white rounded-lg  shadow-lg">
       <div className="flex items-center py-4 justify-between p-4">
-        <NavLists />
+        <ActionsHandlers actions={actions} />
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}

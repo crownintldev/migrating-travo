@@ -16,7 +16,6 @@
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
 
 type Props = {};
@@ -155,7 +154,6 @@ const data: Payment[] = [
 export default function OrdersPage({}: Props) {
   return (
     <div className="flex flex-col gap-5  w-full">
-      <PageTitle title="Orders" />
       <DataTable columns={columns} data={data} />
     </div>
   );

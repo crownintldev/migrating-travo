@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { Nav } from "./ui/nav";
-import { GlobalSheet } from "./sheet/page";
+import { GlobalSheet } from "./drawer/page";
 
 export default function SideNavbar() {
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);

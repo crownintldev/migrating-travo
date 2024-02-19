@@ -1,11 +1,11 @@
 /** @format */
 import React from 'react';
-import PageTitle from "@/components/PageTitle";
 import Image from "next/image";
 import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, { CardContent, CardProps } from "@/components/Card";
 import BarChart from "@/components/BarChart";
 import SalesCard, { SalesProps } from "@/components/SalesCard";
+import TopHeader from '@/components/TopHeader';
 
 const cardData: CardProps[] = [
   {
@@ -66,7 +66,7 @@ export default function RenderPage() {
   return (
     <>
       <div className="flex flex-col gap-5 w-full">
-        <PageTitle title="Dashboard" />
+        <TopHeader />
         <section className="grid w-full grid-cols-1 gap-4 gap-x-8 transition-all sm:grid-cols-2 xl:grid-cols-4">
           {cardData.map((d, i) => (
             <Card
