@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "pushsalik": "git add . && git commit -m 'today' && git push",
-    "mergesalik": "git checkout"
+    "mergesalik": "git checkout dev-salik && git "
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
