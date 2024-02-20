@@ -28,15 +28,15 @@ const mainNavLinks = [
     path: "/",
     icon: <Home />,
     tooltip: "Accounts",
-    activeChildPath: "/dashboards/analytics",
+    // activeChildPath: "/dashboards/analytics",
     child: homeItems,
   },
   {
     title: "Accounts",
-    path: "/users",
+    path: "/accounts",
     icon: <TrendingUp />,
     tooltip: "Accounts",
-    activeChildPath: "/dashboards/analytics",
+    // activeChildPath: "/dashboards/analytics",
     child: accountItems(),
   },
   {

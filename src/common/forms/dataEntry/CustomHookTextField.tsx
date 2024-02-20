@@ -1,9 +1,9 @@
 // @ts-nocheck
-import React from 'react'
-import { Controller } from 'react-hook-form'
-import CustomTextField from 'src/@core/components/mui/text-field'
-import { capitalizeCamelSpace, capitalizeValue } from 'src/utils/helperfunction'
-import { MuiTextAreaHookField } from './MuiTextAreaHookField'
+import React from "react";
+import { Controller } from "react-hook-form";
+import { MuiTextAreaHookField } from "./MuiTextAreaHookField";
+import CustomTextField from "@/@core/components/mui/text-field";
+import { capitalizeCamelSpace } from "@/utils/helperfunction";
 
 const CustomHookTextField = ({ chooseFields, control, errors, item }) => {
   // function textfield
@@ -17,8 +17,8 @@ const CustomHookTextField = ({ chooseFields, control, errors, item }) => {
       placeholder,
       type,
       value: myValue,
-      myvalue
-    } = item
+      myvalue,
+    } = item;
 
     return (
       <>
@@ -40,43 +40,45 @@ const CustomHookTextField = ({ chooseFields, control, errors, item }) => {
             <CustomTextField
               required={required}
               fullWidth
-              type={type ? type : 'text'}
+              type={type ? type : "text"}
               value={
                 myvalue
                   ? myValue === undefined
-                    ? ''
+                    ? ""
                     : myValue
                   : value !== undefined
-                  ? typeof value === 'number'
+                  ? typeof value === "number"
                     ? value
                     : value?.toUpperCase()
-                  : ''
+                  : ""
               }
               sx={{ mb: 4 }}
               label={label ? label : capitalizeCamelSpace(name)}
               onChange={onChange}
               placeholder={
-                placeholder ? placeholder : `Enter ${capitalizeCamelSpace(name)}`
+                placeholder
+                  ? placeholder
+                  : `Enter ${capitalizeCamelSpace(name)}`
               }
               error={Boolean(errors[name])}
-              helperText={errors[name]?.message || ''}
+              helperText={errors[name]?.message || ""}
             />
           )}
         />
         {/* )} */}
       </>
-    )
-  }
+    );
+  };
 
   return (
     <>
       {chooseFields
         ? chooseFields.map((item) => {
-            return textField(item)
+            return textField(item);
           })
         : textField(item)}
     </>
-  )
-}
+  );
+};
 
-export default CustomHookTextField
+export default CustomHookTextField;

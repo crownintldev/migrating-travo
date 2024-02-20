@@ -28,6 +28,7 @@ const MainMenu = (props: Props) => {
     event.preventDefault();
     setSelectedTitle(title);
     setSelectedChild(child);
+
   };
 
   return (

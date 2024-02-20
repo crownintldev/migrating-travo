@@ -51,7 +51,7 @@ export const accountItems = () => [
     children: [
       {
         title: "Main",
-        path: "/dashboards/analytics",
+        path: "accounts/dashboards/analytics",
         icon: "tabler:circle-filled",
       },
     ],
@@ -64,17 +64,17 @@ export const accountItems = () => [
     children: [
       {
         title: "Agents",
-        path: "/member/agent",
+        path: "accounts/member/agent",
         icon: "tabler:circle-filled",
       },
       {
         title: "Clients",
-        path: "/member/client",
+        path: "accounts/member/client",
         icon: "tabler:circle-filled",
       },
       {
         title: "Company",
-        path: "/member/company",
+        path: "accounts/member/company",
         icon: "tabler:circle-filled",
       },
     ],
@@ -85,7 +85,7 @@ export const accountItems = () => [
     children: [
       {
         title: "Visa Booking",
-        path: "/booking/visa",
+        path: "accounts/booking/visa",
         icon: "tabler:circle-filled",
       },
     ],

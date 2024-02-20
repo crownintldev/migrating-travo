@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 // React Imports
@@ -22,7 +23,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 
 // Shadcn Imports
 import { Button } from "@/components/ui/button";
@@ -182,7 +182,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export default function DataTable({ actions }) {
+export default function DataTable({ actions, formNode }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -213,7 +213,7 @@ export default function DataTable({ actions }) {
   return (
     <div className="w-full bg-white rounded-lg  shadow-lg">
       <div className="flex items-center py-4 justify-between p-4">
-        <ActionsHandlers actions={actions} />
+        <ActionsHandlers actions={actions} formNode={formNode} />
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}

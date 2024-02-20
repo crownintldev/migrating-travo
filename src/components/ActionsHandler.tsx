@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Shadcn Imports
 import {
   Menubar,
@@ -44,7 +45,7 @@ import { useState } from "react";
 import { Label } from "recharts";
 import { Input } from "./ui/input";
 
-export function ActionsHandlers({ actions }: { actions: string[] }) {
+export function ActionsHandlers({ actions, formNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   console.log("actions", actions);
 
@@ -64,14 +65,15 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
             {actions.map((item, index) => (
               // Sheet rendering
               <>
-                <GlobalSheet title={item} side='right' item={item} children={
-                  <form>
-                    <Input type="text" placeholder="insert username" className="h-8" />
-                  </form>
-                } />
+                <GlobalSheet
+                  title={item}
+                  side="right"
+                  item={item}
+                  children={formNode}
+                />
               </>
             ))}
-          </MenubarContent >
+          </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
@@ -146,7 +148,6 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
-
     </>
   );
 }
