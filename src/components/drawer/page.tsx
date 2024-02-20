@@ -1,4 +1,7 @@
+// React Imports
+import { ReactNode } from "react";
 
+// Shadcn Imports
 import {
   Sheet,
   SheetClose,
@@ -8,11 +11,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustify } from "lucide-react";
-import { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
-// Import Lucide Icons
+// Lucide Icons Imports
+import { AlignJustify } from "lucide-react";
 import {
   Pencil,
   Plus,
@@ -45,13 +47,13 @@ export function GlobalSheet({ title, children, side, item }: GlobalSheetProps) {
           </SheetTrigger>
       }
       <SheetContent side={side}>
-        <SheetHeader>
-          <SheetTitle>{title}</SheetTitle>
+        <SheetHeader className="mb-4">
+          <SheetTitle>{title} form</SheetTitle>
         </SheetHeader>
         {children}
-        <SheetFooter>
+        <SheetFooter className="mt-4">
           <SheetClose>
-            <Button type="submit">{title}</Button>
+            <Button type="submit" className="h-8">{title}</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

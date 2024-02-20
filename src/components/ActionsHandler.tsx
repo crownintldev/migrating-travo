@@ -64,7 +64,11 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
             {actions.map((item, index) => (
               // Sheet rendering
               <>
-                <GlobalSheet title={item} side='right' item={item} />
+                <GlobalSheet title={item} side='right' item={item} children={
+                  <form>
+                    <Input type="text" placeholder="insert username" className="h-8" />
+                  </form>
+                } />
               </>
             ))}
           </MenubarContent >
@@ -143,18 +147,6 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
         </MenubarMenu>
       </Menubar>
 
-      {/* Rendering Drawer */}
-      {/* {isDrawerOpen && (
-        <GlobalSheet
-          title="create"
-          children={
-            <form>
-              <input type="text" />
-            </form>
-          }
-          side="right"
-        />
-      )} */}
     </>
   );
 }
