@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "salikpush": "git add . && git commit -m 'today' && git push"
+    "salikpush": "git add . && git commit -m 'today' && git push",
+    "salikmerge": "git checkout"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
