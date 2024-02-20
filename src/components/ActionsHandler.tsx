@@ -34,6 +34,7 @@ import {
   Pencil,
   PieChart,
   Plus,
+  Trash,
   Trash2,
 } from "lucide-react";
 
@@ -63,52 +64,10 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
             {actions.map((item, index) => (
               // Sheet rendering
               <>
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <span className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200">
-                      {item}
-                      {item === "create" && <Plus size={"10"} />}
-                    </span>
-                  </SheetTrigger>
-                  <SheetContent>
-                    <SheetHeader>
-                      <SheetTitle>title</SheetTitle>
-                      <SheetDescription>
-                        Make changes here. Click save when you're done.
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                          Name
-                        </Label>
-                        <Input
-                          id="name"
-                          value="Pedro Duarte"
-                          className="col-span-3"
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username" className="text-right">
-                          Username
-                        </Label>
-                        <Input
-                          id="username"
-                          value="@peduarte"
-                          className="col-span-3"
-                        />
-                      </div>
-                    </div>
-                    <SheetFooter>
-                      <SheetClose>
-                        <Button type="submit">Save changes</Button>
-                      </SheetClose>
-                    </SheetFooter>
-                  </SheetContent>
-                </Sheet>
+                <GlobalSheet title={item} side='right' item={item} />
               </>
             ))}
-          </MenubarContent>
+          </MenubarContent >
         </MenubarMenu>
 
         <MenubarMenu>
@@ -185,7 +144,7 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
       </Menubar>
 
       {/* Rendering Drawer */}
-      {isDrawerOpen && (
+      {/* {isDrawerOpen && (
         <GlobalSheet
           title="create"
           children={
@@ -195,7 +154,7 @@ export function ActionsHandlers({ actions }: { actions: string[] }) {
           }
           side="right"
         />
-      )}
+      )} */}
     </>
   );
 }

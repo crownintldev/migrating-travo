@@ -11,14 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function Expense() {
 
-  const expense = useSelector((state:any)=>state.expense.data)
+  const expense = useSelector((state: any) => state.expense.data)
   console.log(expense)
-   const dispatch = useDispatch();
-   useEffect(() => {
-     dispatch(fetchExpense({}));
-   }, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchExpense({}));
+  }, []);
 
-  const actionLists = ["create"];
+  const actionLists = ["create", "update", "delete"];
+
   return (
     <div className="w-full">
       <TopHeader />

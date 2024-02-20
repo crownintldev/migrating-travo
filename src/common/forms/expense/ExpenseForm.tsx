@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react'
 
-// ** Third Party Imports
+// Third Party Imports
 import * as yup from 'yup'
 
-// ** Shadcn Imports
+// Shadcn Imports
 import { Button } from "@/components/ui/button";
 
 import Box from '@mui/material/Box'
@@ -15,7 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // hookform
 import { useForm } from 'react-hook-form'
 
-//redux
+// redux
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchExpense } from 'src/store'
 import { fetchExpenseCategory, fetchExpenseType } from 'src/store'
@@ -23,12 +23,12 @@ import { fetchExpenseCategory, fetchExpenseType } from 'src/store'
 // action
 import { createApi, updateApi } from 'src/action/function'
 
-//dataEntry
+// dataEntry
 import CustomHookTextField from 'src/common/dataEntry/CustomHookTextField'
 import CustomOpenDrawer from 'src/common/customButton/CustomOpenDrawer'
 import SelectHookField from 'src/common/dataEntry/SelectHookField'
 
-//form
+// form
 import ExpenseidForm from './ids/expenseidForm'
 
 const schema = yup.object().shape({

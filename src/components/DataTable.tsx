@@ -47,7 +47,6 @@ import {
 } from "@/components/ui/table";
 
 // Normal Imports
-import { GlobalSheet } from "./drawer/page";
 import { ActionsHandlers } from "./ActionsHandler";
 
 const data: Payment[] = [
@@ -182,17 +181,6 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
 ];
-
-const actionHandler = () => {
-  const children = (
-    <form>
-      <input type="text" placeholder="insert username" />
-      <button>signin</button>
-    </form>
-  );
-
-  return <GlobalSheet children={children} title="add form" side='right' />;
-};
 
 export default function DataTable({ actions }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);

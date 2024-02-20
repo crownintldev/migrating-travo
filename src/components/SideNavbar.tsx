@@ -1,7 +1,10 @@
 /** @format */
 "use client";
 
+// React Imports
 import { useState } from "react";
+
+// Normal Imports
 import { Nav } from "./ui/nav";
 import { GlobalSheet } from "./drawer/page";
 
@@ -22,7 +25,6 @@ export default function SideNavbar() {
           onClick={toggleMobileNav}
           aria-label="Toggle Navigation"
         >
-          {/* <Menu className="absolute left-4 top-6" /> */}
           <GlobalSheet title="sidebar" side='left'>
             <Nav />
           </GlobalSheet>
