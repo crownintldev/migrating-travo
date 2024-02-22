@@ -45,7 +45,7 @@ import { useState } from "react";
 import { Label } from "recharts";
 import { Input } from "./ui/input";
 
-export function ActionsHandlers({ actions, formNode }) {
+export function ActionsHandlers({ actions, addForm, editForm,headerTitle }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   console.log("actions", actions);
 
@@ -64,14 +64,16 @@ export function ActionsHandlers({ actions, formNode }) {
           <MenubarContent>
             {actions.map((item, index) => (
               // Sheet rendering
-              <>
+              <div>
                 <GlobalSheet
                   title={item}
                   side="right"
                   item={item}
-                  children={formNode}
+                  addForm={addForm}
+                  editForm={editForm}
+                  headerTitle={headerTitle}
                 />
-              </>
+              </div>
             ))}
           </MenubarContent>
         </MenubarMenu>

@@ -1,91 +1,112 @@
-// Lucide Icons Imports
-import {
-  Settings,
-  Home,
-  TrendingUp,
-  Plane,
-  Route,
-  BedDouble,
-  Wrench,
-  Database,
-} from "lucide-react";
-
-// Child Menus Imports
-import {
-  accountItems,
-  automationItems,
-  databaseItems,
-  homeItems,
-  hotelItems,
-  settingsItems,
-  ticketingItems,
-  tourItems,
-} from "./child-menu-items";
-
+import { Home } from "lucide-react";
 const mainNavLinks = [
   {
-    title: "home",
-    path: "/",
+    title: "Dashboard",
     icon: <Home />,
-    tooltip: "Accounts",
-    // activeChildPath: "/dashboards/analytics",
-    child: homeItems,
+    tooltip: "Dashboard",
+    children: [
+      {
+        title: "Main",
+        icon: "",
+        path: "dashboard/main",
+      },
+    ],
   },
   {
-    title: "Accounts",
-    path: "/accounts",
-    icon: <TrendingUp />,
-    tooltip: "Accounts",
-    // activeChildPath: "/dashboards/analytics",
-    child: accountItems(),
+    title: "Members",
+    icon: <Home />,
+    tooltip: "Members",
+    children: [
+      {
+        title: "Agent",
+        icon: "",
+        path: "dashboard/main",
+      },
+      {
+        title: "Clients",
+        icon: "",
+        path: "dashboard/main",
+      },
+      {
+        title: "Company",
+        icon: "",
+        path: "dashboard/main",
+      },
+    ],
   },
   {
-    title: "Tickets",
-    path: "/orders",
-    icon: <Plane />,
-    tooltip: "Tickets",
-    activeChildPath: "/welcome",
-    child: ticketingItems(),
+    title: "Booking",
+    icon: <Home />,
+    tooltip: "Booking",
+    children: [
+      {
+        title: "Visa Booking",
+        icon: "",
+        path: "dashboard/main",
+      },
+    ],
   },
   {
-    title: "Tour",
-    path: "/settings",
-    icon: <Route />,
-    tooltip: "Tours",
-    activeChildPath: "/coming-soon",
-    child: tourItems(),
+    title: "Services",
+    icon: <Home />,
+    tooltip: "Services",
+    children: [
+      {
+        title: "Visa Services Rate",
+        icon: "",
+        path: "dashboard/main",
+      },
+      {
+        title: "Supplier Category",
+        icon: "",
+        path: "dashboard/main",
+      },
+      {
+        title: "Supplier List",
+        icon: "",
+        path: "dashboard/main",
+      },
+    ],
   },
   {
-    title: "Hotel",
-    path: "/users",
-    icon: <BedDouble />,
-    tooltip: "Hotels",
-    activeChildPath: "/coming-soon",
-    child: hotelItems(),
+    title: "Services",
+    icon: <Home />,
+    tooltip: "Services",
+    children: [
+      {
+        title: "Visa Services Rate",
+        icon: "",
+        path: "dashboard/main",
+      },
+      {
+        title: "Supplier Category",
+        icon: "",
+        path: "dashboard/main",
+      },
+      {
+        title: "Supplier List",
+        icon: "",
+        path: "dashboard/main",
+      },
+    ],
   },
   {
-    title: "Automation Tools",
-    path: "/settings",
-    icon: <Wrench />,
-    tooltip: "Automation Tools",
-    activeChildPath: "/coming-soon",
-    child: automationItems(),
+    title: "Account",
+    icon: <Home />,
+    tooltip: "Account",
+    path:'#'
   },
   {
-    title: "Database",
-    path: "/users",
-    icon: <Database />,
-    tooltip: "Database",
-    activeChildPath: "/coming-soon",
-    child: databaseItems(),
+    title: "Expense",
+    icon: <Home />,
+    path:"/accounts/expense",
+    tooltip: "expense",
   },
   {
-    title: "settings",
-    path: "/settings",
-    icon: <Settings />,
-    tooltip: "Settings",
-    activeChildPath: "/coming-soon",
-    child: settingsItems(),
+    title: "Invoice",
+    icon: <Home />,
+    tooltip: "invoice",
+    path:'#'
   },
 ];
 

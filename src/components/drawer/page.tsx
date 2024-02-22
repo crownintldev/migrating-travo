@@ -12,19 +12,35 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 // Lucide Icons Imports
 import { AlignJustify } from "lucide-react";
 import { Pencil, Plus, Trash } from "lucide-react";
 
 interface GlobalSheetProps {
   title: string;
-  children?: ReactNode;
+  addForm?: ReactNode;
+  editForm?: ReactNode;
   side: string;
   item?: string;
 }
 
-export function GlobalSheet({ title, children, side, item }: GlobalSheetProps) {
+export function GlobalSheet({
+  title,
+  addForm,
+  editForm,
+  side,
+  item,
+  headerTitle,
+}: GlobalSheetProps) {
   return (
     <Sheet>
       {title === "sidebar" ? (
@@ -33,7 +49,7 @@ export function GlobalSheet({ title, children, side, item }: GlobalSheetProps) {
         </SheetTrigger>
       ) : (
         <SheetTrigger asChild>
-          <span className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200">
+          <span className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200 capitalize">
             {item}
             {item === "create" && <Plus size={"10"} />}
             {item === "update" && <Pencil size={"10"} />}
@@ -43,15 +59,17 @@ export function GlobalSheet({ title, children, side, item }: GlobalSheetProps) {
       )}
       <SheetContent side={side}>
         <SheetHeader className="mb-4">
-          <SheetTitle>{title} form</SheetTitle>
+          <SheetTitle>{headerTitle}</SheetTitle>
         </SheetHeader>
-        {children}
+
+        {addForm}
+
         <SheetFooter className="mt-4">
-          <SheetClose>
+          {/* <SheetClose>
             <Button type="submit" className="h-8">
               {title}
             </Button>
-          </SheetClose>
+          </SheetClose> */}
         </SheetFooter>
       </SheetContent>
     </Sheet>

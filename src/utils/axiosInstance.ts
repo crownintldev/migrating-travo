@@ -1,22 +1,23 @@
-// @ts-nocheck
-import { getCookie } from 'src/action/auth-action';
-import axios from 'axios';
-import { reduxToken } from 'src/action/auth-action';
+// import { reduxToken } from "@/action/auth-action";
+import axios from "axios";
 const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     // You can set common headers here
-  }
+  },
 });
 
-axiosInstance.interceptors.request.use(config => {
-    const accessToken = reduxToken()
-  if (accessToken) {
-    config.headers['Authorization'] = `Bearer ${accessToken}`;
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // const accessToken = reduxToken();
+    // if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${process.env.NEXT_PUBLIC_Auth_Token}`;
+    // }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-}, error => {
-  return Promise.reject(error);
-});
+);
 
 export default axiosInstance;

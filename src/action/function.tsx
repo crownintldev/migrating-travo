@@ -1,13 +1,12 @@
 // @ts-nocheck
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { axiosErrorMessage, capitalizeSplitDash } from 'src/utils/helperfunction'
-import axiosInstance from 'src/utils/axiosInstance'
-// import { AccountApi } from 'config'
-import { getCookie } from './auth-action'
-import { reduxToken } from './auth-action'
 
-const accessToken = reduxToken()
+ import { AccountApi } from './config'
+import { axiosErrorMessage, capitalizeSplitDash } from '@/utils/helperfunction'
+import axiosInstance from '@/utils/axiosInstance'
+
+const accessToken = process.env.NEXT_PUBLIC_Auth_Token
 export const createApi = async ({
   api,
   apidomain,

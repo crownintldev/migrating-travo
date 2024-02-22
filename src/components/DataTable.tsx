@@ -182,7 +182,13 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export default function DataTable({ actions, formNode }) {
+export default function DataTable({
+  actions,
+  addForm,
+  editForm,
+  headerTitle,
+  columns,
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -213,7 +219,12 @@ export default function DataTable({ actions, formNode }) {
   return (
     <div className="w-full bg-white rounded-lg  shadow-lg">
       <div className="flex items-center py-4 justify-between p-4">
-        <ActionsHandlers actions={actions} formNode={formNode} />
+        <ActionsHandlers
+          actions={actions}
+          addForm={addForm}
+          editForm={editForm}
+          headerTitle={headerTitle}
+        />
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}

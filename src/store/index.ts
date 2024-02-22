@@ -1,4 +1,4 @@
-
+// @ts-nocheck
 // ** Toolkit imports
 import { combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from 'redux-persist';
@@ -27,38 +27,38 @@ import generate from './generate'
 import { generateReducer } from './apps/sliceActionReducer'
 
 // Usage example
-// export const fetchVisaCategory = createFetchDataThunk('visaCategory', 'visa-category')
+export const fetchVisaCategory = createFetchDataThunk('visaCategory', 'visa-category')
 
-// export const fetchVisaDestination = createFetchDataThunk(
-//   'visaDestination',
-//   'visa-destination'
-// )
+export const fetchVisaDestination = createFetchDataThunk(
+  'visaDestination',
+  'visa-destination'
+)
 
-// export const fetchVisaDuration = createFetchDataThunk('visaDuration', 'visa-duration')
+export const fetchVisaDuration = createFetchDataThunk('visaDuration', 'visa-duration')
 
-// export const fetchVisaType = createFetchDataThunk('visaType', 'visa-type')
+export const fetchVisaType = createFetchDataThunk('visaType', 'visa-type')
 
-// export const fetchVisaService = createFetchDataThunk('visaService', 'visa-service')
+export const fetchVisaService = createFetchDataThunk('visaService', 'visa-service')
 
 export const fetchAgent = createFetchDataThunk('agent', 'agent')
 
-// export const fetchClient = createFetchDataThunk('client', 'client')
+export const fetchClient = createFetchDataThunk('client', 'client')
 
-// export const fetchCompany = createFetchDataThunk('company', 'company')
+export const fetchCompany = createFetchDataThunk('company', 'company')
 
-// export const fetchVisaBooking = createFetchDataThunk('visaBooking', 'visa-booking')
+export const fetchVisaBooking = createFetchDataThunk('visaBooking', 'visa-booking')
 
-// export const fetchSupplier = createFetchDataThunk('supplier', 'supplier')
+export const fetchSupplier = createFetchDataThunk('supplier', 'supplier')
 
-// export const fetchSupplierCategory = createFetchDataThunk(
-//   'supplierCategory',
-//   'supplier-category'
-// )
+export const fetchSupplierCategory = createFetchDataThunk(
+  'supplierCategory',
+  'supplier-category'
+)
 
-// export const fetchSupplierVisaService = createFetchDataThunk(
-//   'supplierVisaService',
-//   'supplier-visa-service'
-// )
+export const fetchSupplierVisaService = createFetchDataThunk(
+  'supplierVisaService',
+  'supplier-visa-service'
+)
 
 export const fetchExpenseCategory = createFetchDataThunk(
   'expenseCategory',
@@ -69,24 +69,24 @@ export const fetchExpenseType = createFetchDataThunk('expenseType', 'expense-typ
 
 export const fetchExpense = createFetchDataThunk('expense', 'expense')
 
-// export const fetchInvoice = createFetchDataThunk('invoice', 'invoice')
+ export const fetchInvoice = createFetchDataThunk('invoice', 'invoice')
 
 // //Auth App
-// export const fetchUser = createFetchDataThunk(
-//   'user',
-//   'user',
-//   process.env.NEXT_PUBLIC_AUTH
-// )
-// export const fetchRole = createFetchDataThunk(
-//   'role',
-//   'role',
-//   process.env.NEXT_PUBLIC_AUTH
-// )
-// export const fetchBranch = createFetchDataThunk(
-//   'branch',
-//   'branch',
-//   process.env.NEXT_PUBLIC_AUTH
-// )
+export const fetchUser = createFetchDataThunk(
+  'user',
+  'user',
+  process.env.NEXT_PUBLIC_AUTH
+)
+export const fetchRole = createFetchDataThunk(
+  'role',
+  'role',
+  process.env.NEXT_PUBLIC_AUTH
+)
+export const fetchBranch = createFetchDataThunk(
+  'branch',
+  'branch',
+  process.env.NEXT_PUBLIC_AUTH
+)
 const persistConfig = {
   key: 'root',
   storage,
@@ -102,28 +102,28 @@ const rootReducer = combineReducers({
     // passport,
     // account,
     // createApp,
-    // visaBooking: generate('visaBooking', fetchVisaBooking),
-    // visaService: generate('visaService', fetchVisaService),
-    // visaCategory: generate('visaCategory', fetchVisaCategory),
-    // visaDestination: generate('visaDestination', fetchVisaDestination),
-    // visaDuration: generate('visaDuration', fetchVisaDuration),
-    // visaType: generate('visaType', fetchVisaType),
+    visaBooking: generate('visaBooking', fetchVisaBooking),
+    visaService: generate('visaService', fetchVisaService),
+    visaCategory: generate('visaCategory', fetchVisaCategory),
+    visaDestination: generate('visaDestination', fetchVisaDestination),
+    visaDuration: generate('visaDuration', fetchVisaDuration),
+    visaType: generate('visaType', fetchVisaType),
     agent: generate('agent', fetchAgent),
-    // company: generate('company', fetchCompany),
-    // client: generate('client', fetchClient),
-    // supplier: generate('supplier', fetchSupplier),
-    // supplierCategory: generate('supplierCategory', fetchSupplierCategory),
-    // supplierVisaService: generate('supplierVisaService', fetchSupplierVisaService),
+    company: generate('company', fetchCompany),
+    client: generate('client', fetchClient),
+    supplier: generate('supplier', fetchSupplier),
+    supplierCategory: generate('supplierCategory', fetchSupplierCategory),
+    supplierVisaService: generate('supplierVisaService', fetchSupplierVisaService),
     expense: generate('expense', fetchExpense),
-    // expenseCategory: generate('expenseCategory', fetchExpenseCategory),
-    // expenseType: generate('expenseType', fetchExpenseType),
-    // invoice: generate('invoice', fetchInvoice),
-    // myInvoice: generateReducer('myInvoice').reducer,
-    // token: generateReducer('token').reducer,
+    expenseCategory: generate('expenseCategory', fetchExpenseCategory),
+    expenseType: generate('expenseType', fetchExpenseType),
+    invoice: generate('invoice', fetchInvoice),
+    myInvoice: generateReducer('myInvoice').reducer,
+    token: generateReducer('token').reducer,
     // auth
-    // user: generate('user', fetchUser),
-    // role: generate('role', fetchRole),
-    // branch: generate('branch', fetchBranch)
+    user: generate('user', fetchUser),
+    role: generate('role', fetchRole),
+    branch: generate('branch', fetchBranch)
 
 })
 

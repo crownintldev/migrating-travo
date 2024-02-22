@@ -1,8 +1,7 @@
 // @ts-nocheck
+// sliceGenerator.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { getCookie } from 'src/action/auth-action'
-
 const toQueryString = params => {
   const query = Object.entries(params)
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
@@ -13,9 +12,7 @@ const toQueryString = params => {
 
 // ** Fetch Users
 export const createFetchDataThunk = (name, api, apidomain) => {
-  
   return createAsyncThunk(`${name}/fetchData`, async (params, thunkAPI) => {
-   
     const currentState = thunkAPI.getState()
     // console.log(currentState.token.data)
     // update and merge with new create data
@@ -32,22 +29,21 @@ export const createFetchDataThunk = (name, api, apidomain) => {
         const updateItem = params.updateData.find(updateItem => updateItem._id === item._id)
 
         // If updateItem exists, merge it with the existing item
-        return updateItem ? { ...item, ...updateItem } : item
+        return updateItem ? updateItem : item
       })
 
       return { data: updatedData }
     }
-   
     const queryString = toQueryString(params)
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}/${api}?${queryString}`  )
-      // `${apidomain ? apidomain : process.env.NEXT_PUBLIC_API}/${api}?${queryString}`,
-      // {
-      //   withCredentials: true,
-      //   headers: {
-      //     Authorization: `Bearer ${currentState.token.data}`
-      //   }
-      // }
-
+    const response = await axios.get(
+      `${apidomain ? apidomain : process.env.NEXT_PUBLIC_API}/${api}?${queryString}`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_Auth_Token}`
+        }
+      }
+    )
     return response.data
   })
 }
