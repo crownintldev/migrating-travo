@@ -1,200 +1,104 @@
+//@ts-nocheck
 "use client";
 
-import CustomOpenDrawer from "@/common/customButton/CustomOpenDrawer";
-import CustomHookTextField from "@/common/forms/dataEntry/CustomHookTextField";
-import SelectHookField from "@/common/forms/dataEntry/SelectHookField";
-import SimpleSelectHookField from "@/common/forms/dataEntry/SimpleSelectHookField";
 // Shadcn Imports
-import DataTable from "@/components/DataTable";
+import React, { useEffect } from "react";
 import TopHeader from "@/components/TopHeader";
-
-// Redux Imports
-import { fetchExpense } from "@/store";
-import { useEffect } from "react";
+import DataTable from "@/components/DataTable";
+import AddForm from "./components/VisaForm";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchExpense } from "@/store";
+import { Checkbox } from "@/components/ui/checkbox";
+import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
 
-export default function VisaBooking() {
-
+export default function Agent() {
+ 
+  const dispatch = useDispatch();
+  const expense = useSelector((state) => state.expense);
   const actionLists = ["create", "update", "delete"];
-  
-  const passportField1 = [
+  useEffect(() => {
+    dispatch(fetchExpense({}));
+  }, []);
+  const columns: ColumnDef<Payment>[] = [
     {
-      name: 'passportNumber'
-    },
-    {
-      name: 'bookletNumber'
-    },
-    {
-      name: 'cnic',
-      type: 'text'
-    },
-    {
-      name: 'surname',
-      required: true
-    },
-    {
-      name: 'givenName',
-      required: true
-    },
-    {
-      name: 'pob',
-      required: true
-    },
-    {
-      name: 'dateOfBirth',
-      required: true,
-      placeholder: 'Insert date of birth'
-    },
-    {
-      name: 'dateOfIssue',
-      required: true,
-      placeholder: 'Insert date of issue'
-    },
-    {
-      name: 'dateOfExpire',
-      required: true,
-      placeholder: 'Insert date of expire'
-    }
-  ]
-
-  const passportField2 = [
-    {
-      name: 'fatherName'
-    },
-    {
-      name: 'issuingAuthority'
-    },
-    {
-      name: 'trackingNumber'
-    },
-    {
-      textarea: true,
-      name: 'remarks',
-      required: true,
-      placeholder: 'Enter Remarks'
-    }
-  ]
-
-  const formNode = <form>
-  <div>
-    {passportField1.map((item) => (
-    
-        <CustomHookTextField item={item} control={control} errors={errors} />
-    ))}
-
-    <div>
-      <SimpleSelectHookField
-        control={control}
-        errors={errors}
-        name={'country'}
-        options={['Male', 'Female', 'Other']}
-        label={'Country'}
-        placeholder='Search Countries'
-        select={true}
-        MenuProps={{
-          disablePortal: true,
-          disableCloseOnSelect: true
-        }}
-      />
-    </div>
-    <div>
-      <SimpleSelectHookField
-        control={control}
-        errors={errors}
-        name={'nationality'}
-        options={['Male', 'Female', 'Other']}
-        label={'Nationality'}
-        placeholder='Search Nationality'
-        select={true}
-        MenuProps={{
-          disablePortal: true,
-          disableCloseOnSelect: true
-        }}
-      />
-    </div>
-    <div>
-      <SimpleSelectHookField
-        control={control}
-        errors={errors}
-        name={'gender'}
-        options={['Male', 'Female', 'Other']}
-        label={'Gender'}
-        placeholder='Search Gender'
-        select={true}
-        MenuProps={{
-          disablePortal: true,
-          disableCloseOnSelect: true
-        }}
-      />
-    </div>
-    <div>
-      <SimpleSelectHookField
-        control={control}
-        errors={errors}
-        name={'religion'}
-        options={['Islam', 'Christan', 'Hindu', 'Sikh']}
-        label={'Religion'}
-        placeholder='Search Religion'
-        select={true}
-        MenuProps={{
-          disablePortal: true,
-          disableCloseOnSelect: true
-        }}
-      />
-    </div>
-    {passportField2.map((item) => (
-      <div key={item.name}>
-        <CustomHookTextField
-          item={item}
-          control={control}
-          errors={errors}
-          required={true}
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="border-slate-50"
         />
-      </div>
-    ))}
-    <div>
-      <SimpleSelectHookField
-        control={control}
-        errors={errors}
-        name={'onModel'}
-        options={['Client', 'Company', 'Agent']}
-        label={'Refer Category'}
-        placeholder='Select Refer'
-        select={true}
-        MenuProps={{
-          disablePortal: true,
-          disableCloseOnSelect: true
-        }}
-      />
-    </div>
-    <CustomOpenDrawer
-      ButtonTitle={`Add ${watchedOnModel}`}
-      drawerTitle={`Add ${watchedOnModel} Form`}
-      Form={MemberForm}
-      fetchApi={fetchMember}
-      formName={formName}
-      api={api}
-    />
-    <div>
-      <SelectHookField
-        control={control}
-        errors={errors}
-        name='by'
-        options={byItem ?? []}
-        showValue='name'
-        label='Refer'
-        placeholder='Choose Refer'
-      />
-    </div>
-
-  </div>
-</form>
-
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "title",
+      header: "Title",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("title")}</div>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: () => <div className="text-right">Price</div>,
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("price"));
+        return (
+          <div className="text-right font-medium">
+            {currencyFormatter(amount)}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("description")}</div>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {dateFormat(row.getValue("createdAt"))}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "updatedAt",
+      header: "Updated At",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {dateFormat(row.getValue("updatedAt"))}
+        </div>
+      ),
+    },
+  ];
   return (
     <div className="w-full">
       <TopHeader />
-      <h1>VisaBooking page</h1>
-      <DataTable actions={actionLists} formNode={formNode} />
+      <DataTable
+        actions={actionLists}
+        addForm={<AddForm />}
+        headerTitle="Add Passport"
+        columns={columns}
+        data={expense.data}
+        formWidth={'1200px'}
+      />
     </div>
   );
 }

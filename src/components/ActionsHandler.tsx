@@ -45,13 +45,20 @@ import { useState } from "react";
 import { Label } from "recharts";
 import { Input } from "./ui/input";
 
-export function ActionsHandlers({ actions, addForm, editForm,headerTitle }) {
+export function ActionsHandlers({
+  actions,
+  addForm,
+  editForm,
+  headerTitle,
+  formWidth,
+}) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   console.log("actions", actions);
 
   const openDrawer = () => {
     setIsDrawerOpen(true);
   };
+  console.log("====formWidth",formWidth)
 
   return (
     <>
@@ -72,6 +79,7 @@ export function ActionsHandlers({ actions, addForm, editForm,headerTitle }) {
                   addForm={addForm}
                   editForm={editForm}
                   headerTitle={headerTitle}
+                  formWidth={formWidth}
                 />
               </div>
             ))}

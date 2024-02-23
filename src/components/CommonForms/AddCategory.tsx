@@ -23,62 +23,70 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-const AddType = () => {
+import { createApi } from "@/action/function";
+import { useDispatch } from "react-redux";
+import { fetchVisaCategory } from "@/store";
+const AddCategory = ({
+  buttonName,
+  title,
+  placeholder,
+  fieldLabel,
+  setSheetOpen,
+  sheetOpen,
+}) => {
+  const dispatch = useDispatch();
   const formSchema = z.object({
-    categoryName: z.string().min(1, { message: "required" }),
+    name: z.string().min(1, { message: "required" }),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryName: "",
+      name: "",
     },
   });
 
-  const onSubmit = async (values) =>  {
-    await createApi({
-      api: "visa-category",
-      dispatch,
-      data,
-      reset: form.resetField(),
-      fetchData: fetchVisaCategory,
-    });
-    console.log(values);
-  }
+  const onSubmit = async (data) => {
+    console.log("===data", data);
+    // await createApi({
+    //   api: "visa-category",
+    //   dispatch,
+    //   data,
+    //   reset: form.resetField(),
+    //   fetchData: fetchVisaCategory,
+    // });
+  };
   return (
-    <Sheet>
-      <SheetTrigger asChild className="w-fit">
-        <span className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200 capitalize">
-          <span className="font-bold text-blue-600">Add type</span>
-        </span>
-      </SheetTrigger>
+    <Sheet open={sheetOpen} onOpenChange={() => setSheetOpen(false)}>
       <SheetContent side={"left"}>
         <SheetHeader className="mb-4">
-          <SheetTitle>Add Type Form</SheetTitle>
+          <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField
               control={form.control}
-              name="typeName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expense Type Name</FormLabel>
+                  <FormLabel>{fieldLabel}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter Expense Type Name" {...field} />
+                    <Input placeholder={placeholder} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <SheetFooter className="mt-4 flex items-center gap-2 justify-start">
+              <Button type="submit">Submit</Button>
+              <Button type="button" variant="outline" onClick={() => setSheetOpen(false)}>
+                Cancel
+              </Button>
+            </SheetFooter>
           </form>
         </Form>
-        <SheetFooter className="mt-4 flex items-center gap-2 justify-start">
-          <Button type='submit'>Submit</Button>
-          <Button type='button' variant='outline'>Cancel</Button>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
 };
 
-export default AddType;
+export default AddCategory;

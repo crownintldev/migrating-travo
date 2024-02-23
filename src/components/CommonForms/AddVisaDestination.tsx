@@ -11,7 +11,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,55 +22,55 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import axiosInstance from "@/utils/axiosInstance";
 import { createApi } from "@/action/function";
 import { useDispatch } from "react-redux";
 import { fetchVisaCategory } from "@/store";
-const AddCategory = () => {
+const AddVisaDestination = ({
+  buttonName,
+  title,
+  placeholder,
+  fieldLabel,
+  setSheetOpen,
+  sheetOpen,
+}) => {
   const dispatch = useDispatch();
   const formSchema = z.object({
-    name: z.string().min(1, { message: "required" }),
+    destination: z.string().min(1, { message: "required" }),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      destination: "",
     },
   });
 
   const onSubmit = async (data) => {
-    await createApi({
-      api: "visa-category",
-      dispatch,
-      data,
-      reset: form.resetField(),
-      fetchData: fetchVisaCategory,
-    });
+    console.log("===data", data);
+    // await createApi({
+    //   api: "visa-category",
+    //   dispatch,
+    //   data,
+    //   reset: form.resetField(),
+    //   fetchData: fetchVisaCategory,
+    // });
   };
   return (
-    <Sheet>
-      <SheetTrigger asChild className="w-fit">
-        <span className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200 capitalize">
-          <span className="font-bold text-blue-600">Add Category</span>
-        </span>
-      </SheetTrigger>
+    <Sheet open={sheetOpen} onOpenChange={() => setSheetOpen(false)}>
+   
       <SheetContent side={"left"}>
         <SheetHeader className="mb-4">
-          <SheetTitle>Add Category Form</SheetTitle>
+          <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField
               control={form.control}
-              name="name"
+              name="destination"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Expense Category Name</FormLabel>
+                  <FormLabel>{fieldLabel}</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Enter Expense Category Name"
-                      {...field}
-                    />
+                    <Input placeholder={placeholder} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,7 +78,7 @@ const AddCategory = () => {
             />
             <SheetFooter className="mt-4 flex items-center gap-2 justify-start">
               <Button type="submit">Submit</Button>
-              <Button type="button" variant="outline">
+              <Button type="button" variant="outline"  onClick={() => setSheetOpen(false)}>
                 Cancel
               </Button>
             </SheetFooter>
@@ -90,4 +89,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default AddVisaDestination;

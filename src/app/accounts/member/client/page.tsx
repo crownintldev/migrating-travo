@@ -1,23 +1,103 @@
+//@ts-nocheck
 "use client";
 
 // Shadcn Imports
-import DataTable from "@/components/DataTable";
+import React, { useEffect } from "react";
 import TopHeader from "@/components/TopHeader";
-
-// Redux Imports
-import { fetchExpense } from "@/store";
-import { useEffect } from "react";
+import DataTable from "@/components/DataTable";
+import AddForm from "./components/ClientForm";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchExpense } from "@/store";
+import { Checkbox } from "@/components/ui/checkbox";
+import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
 
-export default function Client() {
-
+export default function Agent() {
+ 
+  const dispatch = useDispatch();
+  const expense = useSelector((state) => state.expense);
   const actionLists = ["create", "update", "delete"];
-
+  useEffect(() => {
+    dispatch(fetchExpense({}));
+  }, []);
+  const columns: ColumnDef<Payment>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="border-slate-50"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "title",
+      header: "Title",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("title")}</div>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: () => <div className="text-right">Price</div>,
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("price"));
+        return (
+          <div className="text-right font-medium">
+            {currencyFormatter(amount)}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("description")}</div>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {dateFormat(row.getValue("createdAt"))}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "updatedAt",
+      header: "Updated At",
+      cell: ({ row }) => (
+        <div className="capitalize">
+          {dateFormat(row.getValue("updatedAt"))}
+        </div>
+      ),
+    },
+  ];
   return (
     <div className="w-full">
       <TopHeader />
-      <h1>Client page</h1>
-      <DataTable actions={actionLists} />
+      <DataTable
+        actions={actionLists}
+        addForm={<AddForm />}
+        headerTitle="Add Client"
+        columns={columns}
+        data={expense.data}
+      />
     </div>
   );
 }

@@ -17,10 +17,10 @@ const ChildMenus: React.FC<ChildMenusProps> = ({ menuItems }) => {
     const renderChildrenContent = (data: []) => {
       return data.map((childItem: any) => {
         return (
-          <div className="flex items-center gap-2">
+          <Link href={childItem.path} className="flex items-center gap-3">
             <span>{childItem.icon}</span>
             <span>{childItem.title}</span>
-          </div>
+          </Link>
         );
       });
     };

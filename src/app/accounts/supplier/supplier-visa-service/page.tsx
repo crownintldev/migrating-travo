@@ -1,18 +1,14 @@
-//@ts-nocheck
+// @ts-nocheck
 "use client";
-
-// Shadcn Imports
 import React, { useEffect } from "react";
 import TopHeader from "@/components/TopHeader";
 import DataTable from "@/components/DataTable";
-import AddForm from "./components/CompanyForm";
+import AddForm from "./components/SupplierForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchExpense } from "@/store";
 import { Checkbox } from "@/components/ui/checkbox";
 import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
-
-export default function Agent() {
- 
+const page = () => {
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expense);
   const actionLists = ["create", "update", "delete"];
@@ -89,15 +85,17 @@ export default function Agent() {
     },
   ];
   return (
-    <div className="w-full">
+    <div>
       <TopHeader />
       <DataTable
         actions={actionLists}
         addForm={<AddForm />}
-        headerTitle="Add Company"
+        headerTitle="Add Supplier"
         columns={columns}
         data={expense.data}
       />
     </div>
   );
-}
+};
+
+export default page;

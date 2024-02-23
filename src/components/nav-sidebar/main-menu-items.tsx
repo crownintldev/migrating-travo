@@ -20,17 +20,17 @@ const mainNavLinks = [
       {
         title: "Agent",
         icon: "",
-        path: "dashboard/main",
+        path: "/accounts/member/agent",
       },
       {
         title: "Clients",
         icon: "",
-        path: "dashboard/main",
+        path: "/accounts/member/client",
       },
       {
         title: "Company",
         icon: "",
-        path: "dashboard/main",
+        path: "/accounts/member/company",
       },
     ],
   },
@@ -42,10 +42,11 @@ const mainNavLinks = [
       {
         title: "Visa Booking",
         icon: "",
-        path: "dashboard/main",
+        path: "/accounts/booking/visa",
       },
     ],
   },
+
   {
     title: "Services",
     icon: <Home />,
@@ -54,39 +55,17 @@ const mainNavLinks = [
       {
         title: "Visa Services Rate",
         icon: "",
-        path: "dashboard/main",
+        path: "/accounts/services/visa",
       },
       {
         title: "Supplier Category",
         icon: "",
-        path: "dashboard/main",
+        path: "/accounts/supplier/supplier-visa-category",
       },
       {
         title: "Supplier List",
         icon: "",
-        path: "dashboard/main",
-      },
-    ],
-  },
-  {
-    title: "Services",
-    icon: <Home />,
-    tooltip: "Services",
-    children: [
-      {
-        title: "Visa Services Rate",
-        icon: "",
-        path: "dashboard/main",
-      },
-      {
-        title: "Supplier Category",
-        icon: "",
-        path: "dashboard/main",
-      },
-      {
-        title: "Supplier List",
-        icon: "",
-        path: "dashboard/main",
+        path: "/accounts/supplier/supplier-visa-service",
       },
     ],
   },
@@ -94,19 +73,30 @@ const mainNavLinks = [
     title: "Account",
     icon: <Home />,
     tooltip: "Account",
-    path:'#'
+    path: "#",
   },
   {
     title: "Expense",
     icon: <Home />,
-    path:"/accounts/expense",
+    path: "/accounts/expense",
     tooltip: "expense",
   },
   {
     title: "Invoice",
     icon: <Home />,
     tooltip: "invoice",
-    path:'#'
+    children: [
+      {
+        title: "List",
+        icon: "",
+        path: "/accounts/invoice/list/",
+      },
+      {
+        title: "Add",
+        icon: "",
+        path: "/accounts/invoice/add/",
+      },
+    ],
   },
 ];
 

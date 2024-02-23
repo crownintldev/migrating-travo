@@ -31,6 +31,8 @@ interface GlobalSheetProps {
   editForm?: ReactNode;
   side: string;
   item?: string;
+  headerTitle?: string;
+  formWidth?: string;
 }
 
 export function GlobalSheet({
@@ -40,7 +42,10 @@ export function GlobalSheet({
   side,
   item,
   headerTitle,
+  formWidth,
 }: GlobalSheetProps) {
+  
+  console.log("====sheetWidth", formWidth, headerTitle);
   return (
     <Sheet>
       {title === "sidebar" ? (
@@ -57,7 +62,11 @@ export function GlobalSheet({
           </span>
         </SheetTrigger>
       )}
-      <SheetContent side={side}>
+      <SheetContent
+        className={`overflow-x-hidden overflow-y-auto`}
+        style={{maxWidth:formWidth}}
+        side={side}
+      >
         <SheetHeader className="mb-4">
           <SheetTitle>{headerTitle}</SheetTitle>
         </SheetHeader>
