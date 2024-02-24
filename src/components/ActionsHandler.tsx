@@ -16,50 +16,20 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-
-// Import Lucide Icons
-import {
   ArrowUpRightFromCircle,
   Columns3,
   FolderUp,
-  Pencil,
   PieChart,
-  Plus,
-  Trash,
-  Trash2,
 } from "lucide-react";
 
 // Normal Imports
 import { GlobalSheet } from "./drawer/page";
-import { useState } from "react";
-import { Label } from "recharts";
-import { Input } from "./ui/input";
-
 export function ActionsHandlers({
   actions,
-  addForm,
-  editForm,
+  drawerForm,
   headerTitle,
   formWidth,
 }) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  console.log("actions", actions);
-
-  const openDrawer = () => {
-    setIsDrawerOpen(true);
-  };
-  console.log("====formWidth",formWidth)
-
   return (
     <>
       <Menubar>
