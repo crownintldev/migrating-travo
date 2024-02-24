@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { fetchExpenseCategory, fetchExpenseType } from "@/store";
 import { useDispatch } from "react-redux";
-import AddAgent from "./AddAgent";
+import AddAgent from "./addVisaAgentForm";
 import {
   Select,
   SelectContent,
@@ -24,9 +24,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { findDataByIndex, setFormInputValues } from "@/utils/helperfunction";
 
-const VisaForm = () => {
+const VisaForm = ({ _id }) => {
   const [openSheet, setOpenSheet] = useState(false);
+  const [selectedIds, setSelectedIds] = useState(null);
+  let editId = []?.find((item) => item._id === selectedIds);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchExpenseCategory({}));
@@ -60,6 +63,19 @@ const VisaForm = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (editId) {
+      setFormInputValues(editId, form);
+    } else {
+      form.reset();
+    }
+  }, [form.setValue, editId]);
+  useEffect(() => {
+    if (_id && _id.length > 0) {
+      findDataByIndex(_id, [], setSelectedIds);
+    }
+  }, [_id]);
 
   return (
     <div>
@@ -379,7 +395,7 @@ const VisaForm = () => {
             >
               <span className="font-bold text-blue-600">Add Agent</span>
             </span>
-            
+
             <FormField
               control={form.control}
               name="refer"
@@ -424,8 +440,9 @@ const VisaForm = () => {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <AddAgent openSheet={openSheet}  setOpenSheet={setOpenSheet} />
+      <AddAgent openSheet={openSheet} setOpenSheet={setOpenSheet} />
     </div>
+    
   );
 };
 

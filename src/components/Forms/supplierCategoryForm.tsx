@@ -1,6 +1,6 @@
 //@ts-nocheck
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -15,38 +15,40 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { fetchExpenseCategory, fetchExpenseType } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
-import { createApi } from "@/action/function";
-const SupplierForm = () => {
-  const dispatch = useDispatch();
+import { useDispatch } from "react-redux";
+import { findDataByIndex, setFormInputValues } from "@/utils/helperfunction";
+import { supplierCategory } from "@/dummyData";
 
-  const expense = useSelector((state) => state.expense);
+const SupplierCategoryForm = ({ _id }) => {
+  const dispatch = useDispatch();
+  const [selectedIds, setSelectedIds] = useState(null);
+  let editId = supplierCategory?.find((item) => item._id === selectedIds);
   useEffect(() => {
     dispatch(fetchExpenseCategory({}));
     dispatch(fetchExpenseType({}));
   }, []);
-  const formSchema = z.object({
-    // title: z.string().min(1, { message: "required" }),
-  });
+  const formSchema = z.object({});
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      // title: "",
-    },
+    defaultValues: {},
   });
 
   const onSubmit = async () => {
     const data = form.getValues();
     console.log("=== data", data);
-    // await createApi({
-    //   api: "expense",
-    //   dispatch,
-    //   data,
-    //   reset: form.resetField(),
-    //   fetchData: expense,
-    // });
   };
-
+  useEffect(() => {
+    if (editId) {
+      setFormInputValues(editId, form);
+    } else {
+      form.reset();
+    }
+  }, [form.setValue, editId]);
+  useEffect(() => {
+    if (_id && _id.length > 0) {
+      findDataByIndex(_id, supplierCategory, setSelectedIds);
+    }
+  }, [_id]);
   return (
     <div>
       <Form {...form}>
@@ -71,4 +73,4 @@ const SupplierForm = () => {
   );
 };
 
-export default SupplierForm;
+export default SupplierCategoryForm;

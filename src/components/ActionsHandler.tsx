@@ -1,5 +1,4 @@
 // @ts-nocheck
-// Shadcn Imports
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -21,14 +20,14 @@ import {
   FolderUp,
   PieChart,
 } from "lucide-react";
-
-// Normal Imports
 import { GlobalSheet } from "./drawer/page";
 export function ActionsHandlers({
-  actions,
-  drawerForm,
-  headerTitle,
+  DrawerForm,
+  DrawerTitle,
   formWidth,
+  buttonTitle,
+  deleteButtonTitle,
+  _id,
 }) {
   return (
     <>
@@ -39,19 +38,16 @@ export function ActionsHandlers({
             <span className="pl-1 text-xs">Actions</span>
           </MenubarTrigger>
           <MenubarContent>
-            {actions.map((item, index) => (
-              // Sheet rendering
-              <div>
-                <GlobalSheet
-                  title={item}
-                  side="right"
-                  item={item}
-                  drawerForm={drawerForm}
-                  headerTitle={headerTitle}
-                  formWidth={formWidth}
-                />
-              </div>
-            ))}
+            <div>
+              <GlobalSheet
+                _id={_id}
+                formWidth={formWidth}
+                DrawerForm={DrawerForm}
+                buttonTitle={buttonTitle}
+                DrawerTitle={DrawerTitle}
+                deleteButtonTitle={deleteButtonTitle}
+              />
+            </div>
           </MenubarContent>
         </MenubarMenu>
 

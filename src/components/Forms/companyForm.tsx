@@ -1,6 +1,6 @@
 //@ts-nocheck
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -14,16 +14,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SelectItem } from "@/components/ui/select";
-
 import { fetchExpenseCategory, fetchExpenseType } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import { createApi } from "@/action/function";
 import PhoneInput from "react-phone-input-2";
+import { findDataByIndex, setFormInputValues } from "@/utils/helperfunction";
 
-const AgentForm = () => {
+const CompanyForm = ({ _id }) => {
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expense);
+  const [selectedIds, setSelectedIds] = useState(null);
+  let editId = []?.find((item) => item._id === selectedIds);
   useEffect(() => {
     dispatch(fetchExpenseCategory({}));
     dispatch(fetchExpenseType({}));
@@ -40,7 +40,7 @@ const AgentForm = () => {
 
   const onSubmit = async () => {
     const data = form.getValues();
-    console.log("=== data ====",data)
+    console.log("=== data ====", data);
     // await createApi({
     //   api: "expense",
     //   dispatch,
@@ -49,6 +49,18 @@ const AgentForm = () => {
     //   fetchData: expense,
     // });
   };
+  useEffect(() => {
+    if (editId) {
+      setFormInputValues(editId, form);
+    } else {
+      form.reset();
+    }
+  }, [form.setValue, editId]);
+  useEffect(() => {
+    if (_id && _id.length > 0) {
+      findDataByIndex(_id, [], setSelectedIds);
+    }
+  }, [_id]);
 
   return (
     <div>
@@ -56,12 +68,12 @@ const AgentForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             control={form.control}
-            name="fullName"
+            name="companyName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel>Company Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Full Name" {...field} />
+                  <Input placeholder="Enter Company Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,6 +90,38 @@ const AgentForm = () => {
                     country={"pk"}
                     inputStyle={{ width: "100%" }}
                     containerStyle={{ width: "100%" }}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="licenseNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>License #</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter License Number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="ownerContactNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Owner Contact Number</FormLabel>
+                <FormControl>
+                  <PhoneInput
+                    country={"pk"}
+                    inputStyle={{ width: "100%" }}
+                    containerStyle={{ width: "100%" }}
+                    placeholder="Enter Owner Contact Number"
                     {...field}
                   />
                 </FormControl>
@@ -118,4 +162,4 @@ const AgentForm = () => {
   );
 };
 
-export default AgentForm;
+export default CompanyForm;

@@ -92,6 +92,33 @@ export const hasAdministrativeManageAll = (user, ability) => {
 };
 export const dateFormat = (date) => {
   if (date) {
-   return moment(date).format("YYYY-MM-DD");
+    return moment(date).format("YYYY-MM-DD");
+  }
+};
+
+export const findDataByIndex = (
+  indexArray,
+  data,
+  setIds,
+  multiples = false
+) => {
+  if (multiples) {
+    if (indexArray && indexArray.length > 0) {
+      indexArray.map((item) => setIds((oldId) => [...oldId, data[item]._id]));
+    }
+  } else {
+    if (indexArray && indexArray.length > 0) {
+      if (data && data.length > 0) {
+        setIds(data[indexArray[0]]._id);
+      }
+    }
+  }
+};
+
+export const setFormInputValues = (dataArray, form) => {
+  if (dataArray) {
+    Object.keys(dataArray).forEach((key) => {
+      form.setValue(key, dataArray[key]);
+    });
   }
 };

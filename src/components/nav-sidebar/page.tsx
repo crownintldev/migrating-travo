@@ -66,10 +66,10 @@ const MainMenu = (props: Props) => {
                 className={`text-gray-500 focus:outline-none transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-10 ${
                   location.pathname === item.path ? "text-blue-500" : ""
                 }`}
-                data-tip={item.tooltip}
-                data-for={item.title}
+                // data-tip={item.tooltip}
+                // data-for={item.title}
               >
-                {item.icon}
+                {/* {item.icon} */}
               </div>
             </Link>
           </div>

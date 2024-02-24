@@ -1,7 +1,6 @@
 //@ts-nocheck
 "use client";
 import React, { useEffect, useState } from "react";
-import PhoneInput from "react-phone-input-2";
 import {
   Form,
   FormControl,
@@ -22,31 +21,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { fetchExpenseCategory, fetchExpenseType } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { createApi } from "@/action/function";
 import AddCategory from "@/components/CommonForms/AddCategory";
-const SupplierForm = () => {
-  const [showCategoryDraw, setShowCategoryDraw] = useState(false);
+import AddType from "@/components/CommonForms/AddType";
+import { findDataByIndex, setFormInputValues } from "@/utils/helperfunction";
+const ExpenseForm = ({ _id }) => {
+  console.log("====_id====", _id);
   const dispatch = useDispatch();
+  const [selectedIds, setSelectedIds] = useState(null);
+  const [showCategoryDraw, setShowCategoryDraw] = useState(false);
+  const [showTypeDraw, setShowTypeDraw] = useState(false);
   const expenseCategory = useSelector((state) => state.expenseCategory);
   const expenseType = useSelector((state) => state.expenseType);
   const expense = useSelector((state) => state.expense);
-  useEffect(() => {
-    dispatch(fetchExpenseCategory({}));
-    dispatch(fetchExpenseType({}));
-  }, []);
+  let editId = expense?.data?.find((item) => item._id === selectedIds);
+
   const formSchema = z.object({
-    title: z.string().min(1, { message: "required" }),
+    // title: z.string().min(1, { message: "required" }),
   });
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      //   title: "",
     },
   });
 
+  useEffect(() => {
+    dispatch(fetchExpenseCategory({}));
+    dispatch(fetchExpenseType({}));
+  }, []);
+  useEffect(() => {
+    if (editId) {
+      setFormInputValues(editId, form);
+    } else {
+      form.reset();
+    }
+  }, [form.setValue, editId]);
+  useEffect(() => {
+    if (_id && _id.length > 0) {
+      findDataByIndex(_id, expense.data, setSelectedIds);
+    }
+  }, [_id]);
   const onSubmit = async () => {
     const data = form.getValues();
     await createApi({
@@ -69,6 +86,13 @@ const SupplierForm = () => {
       });
     }
   };
+  const renderTypeSelectItems = () => {
+    if (expenseType && expenseType.data && expenseType.data.length > 0) {
+      return expenseType.data.map((item) => {
+        return <SelectItem value={item._id}>{item.name}</SelectItem>;
+      });
+    }
+  };
 
   return (
     <div>
@@ -78,10 +102,9 @@ const SupplierForm = () => {
             onClick={() => setShowCategoryDraw(true)}
             className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200 capitalize"
           >
-            <span className="font-bold text-blue-600">
-              Add Supplier Category
-            </span>
+            <span className="font-bold text-blue-600">Add Category</span>
           </span>
+          <AddCategory />
           <FormField
             control={form.control}
             name="category"
@@ -105,61 +128,82 @@ const SupplierForm = () => {
               </FormItem>
             )}
           />
+          <span
+            onClick={() => setShowTypeDraw(true)}
+            className="flex text-xs justify-between p-2 items-center hover:cursor-pointer hover:bg-slate-200 capitalize"
+          >
+            <span className="font-bold text-blue-600">Add Type</span>
+          </span>
           <FormField
             control={form.control}
-            name="name"
+            name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter Name" {...field} />
-                </FormControl>
+                <FormLabel>Type</FormLabel>
+                <Select
+                  {...field}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>{renderTypeSelectItems()}</SelectContent>
+                </Select>
+
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <PhoneInput
-                    country={"pk"}
-                    inputStyle={{ width: "100%" }}
-                    containerStyle={{ width: "100%" }}
-                  />
+                  <Input placeholder="shadcn" {...field} />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="description"
+            name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel>Price</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Description " {...field} />
+                  <Input type="number" placeholder="shadcn" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <Button type="submit">Submit</Button>
         </form>
       </Form>
       <AddCategory
-        fieldLabel="Supplier Category Name"
-        placeholder="Enter Supplier Category Name"
-        title="Add Supplier"
+        fieldLabel="Expense Category Name"
+        placeholder="Select Expense Category Name"
+        title="Add Category Form"
         setSheetOpen={setShowCategoryDraw}
         sheetOpen={showCategoryDraw}
+      />
+      <AddType
+        fieldLabel="Expense Category Name"
+        placeholder="Select Expense Category Name"
+        title="Add Category Form"
+        setSheetOpen={setShowTypeDraw}
+        sheetOpen={showTypeDraw}
       />
     </div>
   );
 };
 
-export default SupplierForm;
+export default ExpenseForm;

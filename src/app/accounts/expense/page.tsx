@@ -3,42 +3,17 @@
 import React, { useEffect } from "react";
 import TopHeader from "@/components/TopHeader";
 import DataTable from "@/components/DataTable";
-import AddForm from "./components/AddForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchExpense } from "@/store";
-import { Checkbox } from "@/components/ui/checkbox";
 import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
+import ExpenseForm from "@/components/Forms/expenseForm";
 const page = () => {
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expense);
-  const actionLists = ["create", "update", "delete"];
   useEffect(() => {
     dispatch(fetchExpense({}));
   }, []);
   const columns: ColumnDef<Payment>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className="border-slate-50"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
     {
       accessorKey: "title",
       header: "Title",
@@ -88,9 +63,13 @@ const page = () => {
     <div>
       <TopHeader />
       <DataTable
-        actions={actionLists}
-        addForm={<AddForm />}
-        headerTitle="Add Expense"
+        editForm={ExpenseForm}
+        addForm={ExpenseForm}
+        addFormTitle="Add Expense"
+        editFormTitle="Edit Expense"
+        addButtonTitle="Add Expense"
+        editButtonTitle="Edit Expense"
+        deleteButtonTitle="Delete Expense"
         columns={columns}
         data={expense.data}
       />

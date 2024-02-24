@@ -1,6 +1,6 @@
 //@ts-nocheck
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -16,12 +16,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { fetchExpenseCategory, fetchExpenseType } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import { createApi } from "@/action/function";
 import PhoneInput from "react-phone-input-2";
+import { findDataByIndex, setFormInputValues } from "@/utils/helperfunction";
 
-const CompanyForm = () => {
+const ClientForm = ({ _id }) => {
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expense);
+  const [selectedIds, setSelectedIds] = useState(null);
+  let editId = []?.find((item) => item._id === selectedIds);
   useEffect(() => {
     dispatch(fetchExpenseCategory({}));
     dispatch(fetchExpenseType({}));
@@ -47,19 +49,30 @@ const CompanyForm = () => {
     //   fetchData: expense,
     // });
   };
-
+  useEffect(() => {
+    if (editId) {
+      setFormInputValues(editId, form);
+    } else {
+      form.reset();
+    }
+  }, [form.setValue, editId]);
+  useEffect(() => {
+    if (_id && _id.length > 0) {
+      findDataByIndex(_id, [], setSelectedIds);
+    }
+  }, [_id]);
   return (
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             control={form.control}
-            name="companyName"
+            name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Name</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Company Name" {...field} />
+                  <Input placeholder="Enter Full Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -76,38 +89,6 @@ const CompanyForm = () => {
                     country={"pk"}
                     inputStyle={{ width: "100%" }}
                     containerStyle={{ width: "100%" }}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="licenseNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>License #</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter License Number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="ownerContactNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Owner Contact Number</FormLabel>
-                <FormControl>
-                  <PhoneInput
-                    country={"pk"}
-                    inputStyle={{ width: "100%" }}
-                    containerStyle={{ width: "100%" }}
-                    placeholder="Enter Owner Contact Number"
                     {...field}
                   />
                 </FormControl>
@@ -148,4 +129,4 @@ const CompanyForm = () => {
   );
 };
 
-export default CompanyForm;
+export default ClientForm;

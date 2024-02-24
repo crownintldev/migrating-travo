@@ -1,48 +1,20 @@
 //@ts-nocheck
 "use client";
-
-// Shadcn Imports
 import React, { useEffect } from "react";
 import TopHeader from "@/components/TopHeader";
 import DataTable from "@/components/DataTable";
-import AddForm from "./components/ClientForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchExpense } from "@/store";
-import { Checkbox } from "@/components/ui/checkbox";
 import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
+import ClientForm from "@/components/Forms/clientForm";
 
 export default function Agent() {
- 
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expense);
-  const actionLists = ["create", "update", "delete"];
   useEffect(() => {
     dispatch(fetchExpense({}));
   }, []);
   const columns: ColumnDef<Payment>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className="border-slate-50"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
     {
       accessorKey: "title",
       header: "Title",
@@ -92,9 +64,12 @@ export default function Agent() {
     <div className="w-full">
       <TopHeader />
       <DataTable
-        actions={actionLists}
-        addForm={<AddForm />}
-        headerTitle="Add Client"
+        addForm={ClientForm}
+        editForm={ClientForm}
+        addButtonTitle="Add Client"
+        editButtonTitle="Edit Client"
+        addFormTitle="Add Client"
+        editFormTitle="Edit Client"
         columns={columns}
         data={expense.data}
       />

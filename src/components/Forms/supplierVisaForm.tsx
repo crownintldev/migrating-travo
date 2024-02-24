@@ -1,7 +1,6 @@
 //@ts-nocheck
 "use client";
 import React, { useEffect, useState } from "react";
-import PhoneInput from "react-phone-input-2";
 import {
   Form,
   FormControl,
@@ -25,14 +24,14 @@ import {
 
 import { fetchExpenseCategory, fetchExpenseType } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import { createApi } from "@/action/function";
 import AddCategory from "@/components/CommonForms/AddCategory";
 import AddType from "@/components/CommonForms/AddType";
 import AddVisaDestination from "@/components/CommonForms/AddVisaDestination";
 import AddSupplier from "@/components/CommonForms/AddSupplier";
 import AddVisaDuration from "@/components/CommonForms/AddVisaDuration";
+import { findDataByIndex, setFormInputValues } from "@/utils/helperfunction";
 
-const visaForm = () => {
+const SupplierVisaForm = ({ _id }) => {
   const dispatch = useDispatch();
   const expenseCategory = useSelector((state) => state.expenseCategory);
   const [showCategoryDraw, setShowCategoryDraw] = useState(false);
@@ -40,8 +39,9 @@ const visaForm = () => {
   const [showDestinationDraw, setShowDestinationDraw] = useState(false);
   const [showDurationDraw, setShowDurationDraw] = useState(false);
   const [showSupplerDraw, setShowSupplerDraw] = useState(false);
-
   const expense = useSelector((state) => state.expense);
+  const [selectedIds, setSelectedIds] = useState(null);
+  let editId = []?.find((item) => item._id === selectedIds);
   useEffect(() => {
     dispatch(fetchExpenseCategory({}));
     dispatch(fetchExpenseType({}));
@@ -58,7 +58,7 @@ const visaForm = () => {
 
   const onSubmit = async () => {
     const data = form.getValues();
-    console.log("==== data =====", data)
+    console.log("==== data =====", data);
     // await createApi({
     //   api: "expense",
     //   dispatch,
@@ -75,7 +75,18 @@ const visaForm = () => {
       });
     }
   };
-
+  useEffect(() => {
+    if (editId) {
+      setFormInputValues(editId, form);
+    } else {
+      form.reset();
+    }
+  }, [form.setValue, editId]);
+  useEffect(() => {
+    if (_id && _id.length > 0) {
+      findDataByIndex(_id, [], setSelectedIds);
+    }
+  }, [_id]);
   return (
     <div>
       <Form {...form}>
@@ -331,4 +342,4 @@ const visaForm = () => {
   );
 };
 
-export default visaForm;
+export default SupplierVisaForm;

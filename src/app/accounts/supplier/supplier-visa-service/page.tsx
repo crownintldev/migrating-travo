@@ -3,42 +3,18 @@
 import React, { useEffect } from "react";
 import TopHeader from "@/components/TopHeader";
 import DataTable from "@/components/DataTable";
-import AddForm from "./components/SupplierForm";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSupplier } from "@/store";
-import { Checkbox } from "@/components/ui/checkbox";
-import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
+import { dateFormat } from "@/utils/helperfunction";
+import SupplierForm from "@/components/Forms/supplierForm";
+import { supplierData } from "@/dummyData";
 const page = () => {
   const dispatch = useDispatch();
   const expense = useSelector((state) => state.expense);
-  const actionLists = ["create", "update", "delete"];
   useEffect(() => {
     dispatch(fetchSupplier({}));
   }, []);
   const columns: ColumnDef<Payment>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-          className="border-slate-50"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
     {
       accessorKey: "id",
       header: "ID",
@@ -59,14 +35,14 @@ const page = () => {
       ),
     },
     {
-      accessorKey: "phone",
+      accessorKey: "phoneNumber",
       header: "Phone",
-      cell: ({ row }) => <div>{row.getValue("phone")}</div>,
+      cell: ({ row }) => <div>{row.getValue("phoneNumber")}</div>,
     },
     {
       accessorKey: "description",
       header: "Description",
-      cell: ({ row }) => <div>{row.getValue("Description")}</div>,
+      cell: ({ row }) => <div>{row.getValue("description")}</div>,
     },
     {
       accessorKey: "createdAt",
@@ -87,15 +63,19 @@ const page = () => {
       ),
     },
   ];
+
   return (
     <div>
       <TopHeader />
       <DataTable
-        actions={actionLists}
-        addForm={<AddForm />}
-        headerTitle="Add Supplier"
+        addForm={SupplierForm}
+        editForm={SupplierForm}
         columns={columns}
-        data={expense.data}
+        data={supplierData}
+        addFormTitle="Add Supplier Visa Service"
+        editFormTitle="Edit Supplier Visa Service"
+        addButtonTitle="Add Supplier Visa Service"
+        editButtonTitle="Edit Supplier Visa Service"
       />
     </div>
   );

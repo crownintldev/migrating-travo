@@ -1,18 +1,8 @@
 // @ts-nocheck
 "use client";
-
-// React Imports
 import * as React from "react";
 
 import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
-
-// Tanstack Import
-import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -36,7 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { Checkbox } from "@/components/ui/checkbox";
 // Normal Imports
 import { ActionsHandlers } from "./ActionsHandler";
 
@@ -46,110 +36,18 @@ export type Payment = {
   status: "pending" | "processing" | "success" | "failed";
   email: string;
 };
-
-// export const columns: ColumnDef<Payment>[] = [
-//   {
-//     id: "select",
-//     header: ({ table }) => (
-//       <Checkbox
-//         checked={
-//           table.getIsAllPageRowsSelected() ||
-//           (table.getIsSomePageRowsSelected() && "indeterminate")
-//         }
-//         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-//         aria-label="Select all"
-//         className="border-slate-50"
-//       />
-//     ),
-//     cell: ({ row }) => (
-//       <Checkbox
-//         checked={row.getIsSelected()}
-//         onCheckedChange={(value) => row.toggleSelected(!!value)}
-//         aria-label="Select row"
-//       />
-//     ),
-//     enableSorting: false,
-//     enableHiding: false,
-//   },
-//   {
-//     accessorKey: "status",
-//     header: "Status",
-//     cell: ({ row }) => (
-//       <div className="capitalize">{row.getValue("status")}</div>
-//     ),
-//   },
-//   {
-//     accessorKey: "email",
-//     header: ({ column }) => {
-//       return (
-//         <Button
-//           variant="ghost"
-//           className="text-white underline"
-//           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-//         >
-//           Email
-//           <CaretSortIcon className="ml-2 h-4 w-4" />
-//         </Button>
-//       );
-//     },
-//     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-//   },
-//   {
-//     accessorKey: "amount",
-//     header: () => <div className="text-right">Amount</div>,
-//     cell: ({ row }) => {
-//       const amount = parseFloat(row.getValue("amount"));
-
-//       // Format the amount as a dollar amount
-//       const formatted = new Intl.NumberFormat("en-US", {
-//         style: "currency",
-//         currency: "USD",
-//       }).format(amount);
-
-//       return <div className="text-right font-medium">{formatted}</div>;
-//     },
-//   },
-//   {
-//     id: "actions",
-//     enableHiding: false,
-//     cell: ({ row }) => {
-//       const payment = row.original;
-
-//       return (
-//         <DropdownMenu>
-//           <DropdownMenuTrigger asChild>
-//             <Button variant="ghost" className="h-8 w-8 p-0 hover:text-black">
-//               <span className="sr-only">Open menu</span>
-//               <DotsHorizontalIcon className="h-4 w-4" />
-//             </Button>
-//           </DropdownMenuTrigger>
-//           <DropdownMenuContent align="end">
-//             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-//             <DropdownMenuItem
-//               onClick={() => navigator.clipboard.writeText(payment.id)}
-//             >
-//               Copy payment ID
-//             </DropdownMenuItem>
-//             <DropdownMenuSeparator />
-//             <DropdownMenuItem>View customer</DropdownMenuItem>
-//             <DropdownMenuItem>View payment details</DropdownMenuItem>
-//           </DropdownMenuContent>
-//         </DropdownMenu>
-//       );
-//     },
-//   },
-// ];
-
 export default function DataTable({
-  actions,
   addForm,
   editForm,
   columns,
   data,
   showTopAuction = true,
   formWidth,
-  addTitle,
-  editTitle,
+  addFormTitle,
+  editFormTitle,
+  addButtonTitle,
+  editButtonTitle,
+  deleteButtonTitle
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -160,9 +58,37 @@ export default function DataTable({
   const [rowSelection, setRowSelection] = React.useState({});
   const [selectionRow, setSelectionRow] = React.useState([]);
 
+  let tableColumn = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="border-slate-50"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => {
+            row.toggleSelected(!!value);
+          }}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    ...columns,
+  ];
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumn,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -171,6 +97,7 @@ export default function DataTable({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    enableRowSelection: true,
     state: {
       sorting,
       columnFilters,
@@ -193,19 +120,33 @@ export default function DataTable({
           showTopAuction ? "justify-between" : "justify-end"
         } p-4`}
       >
-        {/* This condition use for show and hide button form table */}
         {showTopAuction && (
           <ActionsHandlers
-            actions={actions}
-            selectionRow={selectionRow}
-            selectedId={}
-            drawerForm={
-              selectionRow && selectionRow.length > 0 ? editForm : addForm
-            }
-            drawerTitle={
-              selectionRow && selectionRow.length > 0 ? editTitle : addTitle
-            }
+            _id={selectionRow}
             formWidth={formWidth}
+            buttonTitle={
+              selectionRow && selectionRow.length === 1
+                ? editButtonTitle
+                : selectionRow && selectionRow.length === 0
+                ? addButtonTitle
+                : ''
+            }
+            DrawerForm={
+              selectionRow && selectionRow.length === 1
+                ? editForm
+                : selectionRow && selectionRow.length === 0
+                ? addForm
+                : ""
+            }
+            DrawerTitle={
+              selectionRow && selectionRow.length === 1
+                ? editFormTitle
+                : selectionRow && selectionRow.length === 0
+                ? addFormTitle
+                : ''
+            }
+            deleteButtonTitle={deleteButtonTitle}
+          
           />
         )}
         <Input
