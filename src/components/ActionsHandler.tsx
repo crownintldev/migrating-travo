@@ -76,8 +76,7 @@ export function ActionsHandlers({
                   title={item}
                   side="right"
                   item={item}
-                  addForm={addForm}
-                  editForm={editForm}
+                  drawerForm={drawerForm}
                   headerTitle={headerTitle}
                   formWidth={formWidth}
                 />

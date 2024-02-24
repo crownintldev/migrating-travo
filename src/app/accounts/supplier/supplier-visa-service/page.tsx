@@ -5,7 +5,7 @@ import TopHeader from "@/components/TopHeader";
 import DataTable from "@/components/DataTable";
 import AddForm from "./components/SupplierForm";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchExpense } from "@/store";
+import { fetchSupplier } from "@/store";
 import { Checkbox } from "@/components/ui/checkbox";
 import { currencyFormatter, dateFormat } from "@/utils/helperfunction";
 const page = () => {
@@ -13,7 +13,7 @@ const page = () => {
   const expense = useSelector((state) => state.expense);
   const actionLists = ["create", "update", "delete"];
   useEffect(() => {
-    dispatch(fetchExpense({}));
+    dispatch(fetchSupplier({}));
   }, []);
   const columns: ColumnDef<Payment>[] = [
     {
@@ -40,30 +40,33 @@ const page = () => {
       enableHiding: false,
     },
     {
-      accessorKey: "title",
-      header: "Title",
+      accessorKey: "id",
+      header: "ID",
+      cell: ({ row }) => <div>{row.getValue("orderId")}</div>,
+    },
+    {
+      accessorKey: "name",
+      header: () => <div className="text-right">Name</div>,
+      cell: ({ row }) => {
+        return <div className="capitalize">{row.getValue("name")}</div>;
+      },
+    },
+    {
+      accessorKey: "categoryName",
+      header: "Category",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("title")}</div>
+        <div className="capitalize">{row.getValue("categoryName")}</div>
       ),
     },
     {
-      accessorKey: "price",
-      header: () => <div className="text-right">Price</div>,
-      cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("price"));
-        return (
-          <div className="text-right font-medium">
-            {currencyFormatter(amount)}
-          </div>
-        );
-      },
+      accessorKey: "phone",
+      header: "Phone",
+      cell: ({ row }) => <div>{row.getValue("phone")}</div>,
     },
     {
       accessorKey: "description",
       header: "Description",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("description")}</div>
-      ),
+      cell: ({ row }) => <div>{row.getValue("Description")}</div>,
     },
     {
       accessorKey: "createdAt",

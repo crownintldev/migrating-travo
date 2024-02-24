@@ -37,14 +37,12 @@ interface GlobalSheetProps {
 
 export function GlobalSheet({
   title,
-  addForm,
-  editForm,
+  drawerForm,
   side,
   item,
   headerTitle,
   formWidth,
 }: GlobalSheetProps) {
-  
   console.log("====sheetWidth", formWidth, headerTitle);
   return (
     <Sheet>
@@ -64,15 +62,13 @@ export function GlobalSheet({
       )}
       <SheetContent
         className={`overflow-x-hidden overflow-y-auto`}
-        style={{maxWidth:formWidth}}
+        style={{ maxWidth: formWidth }}
         side={side}
       >
         <SheetHeader className="mb-4">
           <SheetTitle>{headerTitle}</SheetTitle>
         </SheetHeader>
-
-        {addForm}
-
+        {drawerForm}
         <SheetFooter className="mt-4">
           {/* <SheetClose>
             <Button type="submit" className="h-8">

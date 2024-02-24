@@ -144,13 +144,13 @@ export default function DataTable({
   actions,
   addForm,
   editForm,
-  headerTitle,
   columns,
   data,
   showTopAuction = true,
-  formWidth
+  formWidth,
+  addTitle,
+  editTitle,
 }) {
-  
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -158,6 +158,7 @@ export default function DataTable({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [selectionRow, setSelectionRow] = React.useState([]);
 
   const table = useReactTable({
     data,
@@ -178,6 +179,13 @@ export default function DataTable({
     },
   });
 
+  const selectedRowIds = Object.keys(rowSelection).filter(
+    (key) => rowSelection[key]
+  );
+  React.useEffect(() => {
+    setSelectionRow(selectedRowIds);
+  }, [rowSelection]);
+
   return (
     <div className="w-full bg-white rounded-lg  shadow-lg">
       <div
@@ -189,9 +197,14 @@ export default function DataTable({
         {showTopAuction && (
           <ActionsHandlers
             actions={actions}
-            addForm={addForm}
-            editForm={editForm}
-            headerTitle={headerTitle}
+            selectionRow={selectionRow}
+            selectedId={}
+            drawerForm={
+              selectionRow && selectionRow.length > 0 ? editForm : addForm
+            }
+            drawerTitle={
+              selectionRow && selectionRow.length > 0 ? editTitle : addTitle
+            }
             formWidth={formWidth}
           />
         )}
