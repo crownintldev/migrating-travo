@@ -123,7 +123,6 @@ const ExpenseForm = ({ _id }) => {
                   </FormControl>
                   <SelectContent>{renderCategorySelectItems()}</SelectContent>
                 </Select>
-
                 <FormMessage />
               </FormItem>
             )}
